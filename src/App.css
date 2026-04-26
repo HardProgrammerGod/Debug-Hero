@@ -1,16 +1,35 @@
-/* --- БАЗОВІ ТА ГЛОБАЛЬНІ СТИЛІ --- */
+/* ============================================================
+   🎮 APP.CSS - ОЧИЩЕНО ТА ПЕРЕОРГАНІЗОВАНО
+   ============================================================
+   Все дублювання видалено, стилі організовані за розділами
+   ============================================================ */
+
+/* ============================================================
+   1️⃣ ГЛОБАЛЬНІ ЗМІННІ ТА БАЗОВІ СТИЛІ
+   ============================================================ */
+
 :root {
+  /* 🎨 Кольори */
   --text: #9ca3af;
   --text-h: #f3f4f6;
-  --bg: #16171d;
+  --bg: #000;
   --border: #2e303a;
   --code-bg: #1f2028;
-  --accent: #00ff41; /* Змінено на основний колір хакера */
+
+  /* 💚 Хакерський зелений */
+  --accent-green: #00ff41;
   --accent-bg: rgba(0, 255, 65, 0.15);
   --accent-border: rgba(0, 255, 65, 0.5);
-  --shadow: rgba(0, 0, 0, 0.4) 0 10px 15px -3px;
-  --sans: system-ui, 'Segoe UI', Roboto, sans-serif;
+
+  /* 💜 Фіолетовий */
+  --accent-purple: #c084fc;
+
+  /* 📐 Шрифти */
   --mono: 'Courier New', ui-monospace, Consolas, monospace;
+  --sans: system-ui, 'Segoe UI', Roboto, sans-serif;
+
+  /* ✨ Ефекти */
+  --shadow: rgba(0, 0, 0, 0.4) 0 10px 15px -3px;
 }
 
 body {
@@ -21,7 +40,10 @@ body {
   overflow: hidden;
 }
 
-/* --- ІГРОВИЙ ЕКРАН ТА КАМЕРА --- */
+/* ============================================================
+   2️⃣ ІГРОВИЙ ЕКРАН ТА КАМЕРА
+   ============================================================ */
+
 .game-screen {
   width: 100vw;
   height: 100vh;
@@ -34,7 +56,7 @@ body {
   position: relative;
   height: 65%;
   width: 5000px;
-  transition: none; /* Фізика працює через requestAnimationFrame */
+  transition: none;
 }
 
 .ground-line {
@@ -43,11 +65,14 @@ body {
   width: 100%;
   height: 40px;
   background: #111;
-  border-top: 4px solid var(--accent);
+  border-top: 4px solid var(--accent-green);
   box-shadow: 0 -5px 15px rgba(0, 255, 65, 0.2);
 }
 
-/* --- ОБ'ЄКТИ ТА ГЕРОЙ --- */
+/* ============================================================
+   3️⃣ ГЕРОЙ ТА ОБ'ЄКТИ
+   ============================================================ */
+
 .player-hero {
   position: absolute;
   font-size: 50px;
@@ -57,8 +82,8 @@ body {
   justify-content: center;
   align-items: center;
   z-index: 10;
-  filter: drop-shadow(0 0 10px var(--accent));
-  transition: none !important; /* Критично для плавності руху */
+  filter: drop-shadow(0 0 10px var(--accent-green));
+  transition: none !important;
 }
 
 .brick {
@@ -74,38 +99,80 @@ body {
   justify-content: center;
 }
 
-/* --- HUD ТА UI ГРИ --- */
+/* ============================================================
+   4️⃣ HUD ТА UI ГРИ
+   ============================================================ */
+
 .game-hud {
   position: absolute;
   top: 0;
   width: 100%;
   display: flex;
   justify-content: space-around;
+  align-items: center;
   padding: 15px;
   background: rgba(0, 0, 0, 0.7);
   z-index: 1000;
   color: #fff;
   font-family: var(--mono);
+  gap: 20px;
+}
+
+.hud-item {
+  font-size: 14px;
+  text-transform: uppercase;
 }
 
 .hud-item span {
-  color: var(--accent);
+  color: var(--accent-green);
+  font-weight: bold;
 }
 
 .hud-timer {
   background: #ff3e3e;
   color: white;
-  padding: 5px 20px;
+  padding: 8px 16px;
   font-weight: bold;
   animation: blink 0.5s infinite;
+  border-radius: 4px;
 }
 
-/* --- ПОРТАЛИ ТА ПЕРЕХОДИ --- */
+/* HP Bar */
+.hp-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.hp-label {
+  font-size: 12px;
+  text-transform: uppercase;
+}
+
+.hp-bar-bg {
+  width: 150px;
+  height: 10px;
+  background: #333;
+  border: 1px solid var(--accent-green);
+  overflow: hidden;
+}
+
+.hp-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #ff3e3e, #ff6b6b);
+  transition: width 0.3s ease;
+}
+
+/* ============================================================
+   5️⃣ ПОРТАЛИ ТА ПЕРЕХОДИ
+   ============================================================ */
+
 .portal-wrapper {
   position: absolute;
   display: flex;
   flex-direction: column;
   align-items: center;
+  gap: 10px;
 }
 
 .portal-ring {
@@ -117,14 +184,23 @@ body {
   animation: rotatePortal 2s infinite linear;
 }
 
+.interact-hint {
+  font-size: 12px;
+  text-transform: uppercase;
+  font-family: var(--mono);
+  font-weight: bold;
+}
+
 @keyframes rotatePortal {
   from { transform: rotateY(0deg); }
   to { transform: rotateY(360deg); }
 }
 
+/* Назва світу при старті рівня */
 .world-title-overlay {
   position: absolute;
-  top: 45%; left: 50%;
+  top: 45%;
+  left: 50%;
   transform: translate(-50%, -50%);
   text-align: center;
   opacity: 0;
@@ -142,9 +218,13 @@ body {
   font-size: 80px;
   letter-spacing: 10px;
   text-transform: uppercase;
+  text-shadow: 0 0 30px rgba(0, 255, 65, 0.5);
 }
 
-/* --- ТЕРМІНАЛ ДЕБАГУ --- */
+/* ============================================================
+   6️⃣ ТЕРМІНАЛ ДЕБАГУ (ВНИЗУ)
+   ============================================================ */
+
 .bottom-terminal {
   position: fixed;
   bottom: -100%;
@@ -152,11 +232,12 @@ body {
   width: 100%;
   height: 40%;
   background: #000;
-  border-top: 4px solid var(--accent);
-  transition: 0.5s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+  border-top: 4px solid var(--accent-green);
+  transition: bottom 0.5s cubic-bezier(0.18, 0.89, 0.32, 1.28);
   z-index: 300;
   padding: 20px;
   box-sizing: border-box;
+  overflow-y: auto;
 }
 
 .bottom-terminal.open {
@@ -170,168 +251,151 @@ body {
   font-family: var(--mono);
 }
 
-/* --- ЕФЕКТИ ТА АНІМАЦІЇ --- */
-.animate-shake {
-  animation: shake 0.2s infinite;
+/* ============================================================
+   7️⃣ РЕДАКТОР КОДУ
+   ============================================================ */
+
+.editor-container {
+  background: #1e1e1e;
+  border-radius: 8px;
+  border: 1px solid #333;
+  display: flex;
+  flex-direction: column;
+  height: 250px;
+  overflow: hidden;
 }
 
-@keyframes shake {
-  0% { transform: translate(1px, 1px); }
-  50% { transform: translate(-1px, -1px); }
-  100% { transform: translate(1px, -1px); }
-}
-
-@keyframes blink { 
-  50% { opacity: 0.3; } 
-}
-
-/* --- КІНЕМАТОГРАФІЧНЕ ІНТРО (CRT & GLITCH) --- */
-.intro-container {
-  height: 100vh;
-  background: radial-gradient(circle, #051a05 0%, #000000 100%);
+.editor-toolbar {
+  background: #333;
+  padding: 8px;
   display: flex;
   align-items: center;
-  justify-content: center;
-  padding: 20px;
-  overflow: hidden;
-  position: relative;
+  gap: 6px;
+  border-radius: 8px 8px 0 0;
 }
 
-.crt-overlay::before {
-  content: " ";
-  display: block;
-  position: absolute;
-  top: 0; left: 0; bottom: 0; right: 0;
-  background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), 
-              linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 100, 0.06));
-  z-index: 10;
-  background-size: 100% 4px, 3px 100%;
-  pointer-events: none;
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
 }
 
-.terminal-border {
-  border: 2px solid var(--accent);
-  max-width: 850px;
-  width: 100%;
-  background: rgba(0, 10, 0, 0.85);
-  box-shadow: 0 0 30px rgba(0, 255, 65, 0.4);
-  position: relative;
-  z-index: 20;
+.red { background: #ff5f56; }
+.yellow { background: #ffbd2e; }
+.green { background: #27c93f; }
+
+.file-name {
+  color: #888;
+  font-size: 12px;
+  margin-left: 10px;
 }
 
-.terminal-header-bar {
-  background: var(--accent);
+.code-input {
+  flex: 1;
+  background: #1e1e1e;
+  color: #d4d4d4;
+  padding: 15px;
+  font-family: var(--mono);
+  font-size: 16px;
+  border: none;
+  resize: none;
+  outline: none;
+}
+
+.editor-footer {
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #181818;
+  gap: 10px;
+}
+
+.error-msg {
+  color: #ff3e3e;
+  font-size: 12px;
+  animation: blink 0.3s infinite;
+}
+
+.debug-btn {
+  background: var(--accent-purple);
   color: #000;
-  padding: 5px 15px;
-  font-family: var(--mono);
-  font-weight: bold;
-}
-
-.intro-content {
-  padding: 40px;
-  text-align: center;
-  color: var(--accent);
-  font-family: var(--mono);
-}
-
-.glitch-text {
-  position: relative;
-  font-size: 28px;
-  text-shadow: 0 0 10px var(--accent);
-}
-
-.start-btn {
-  margin-top: 30px;
-  background: transparent;
-  border: 1px solid var(--accent);
-  color: var(--accent);
-  padding: 12px 30px;
-  font-family: inherit;
+  border: none;
+  padding: 8px 20px;
   font-weight: bold;
   cursor: pointer;
-  transition: 0.3s;
+  border-radius: 4px;
+  transition: all 0.3s;
 }
 
-.start-btn:hover {
-  background: var(--accent);
-  color: #000;
-  box-shadow: 0 0 20px var(--accent);
+.debug-btn:hover {
+  filter: brightness(1.2);
+  box-shadow: 0 0 15px var(--accent-purple);
 }
 
-/* --- ПЕРЕХІД МІЖ СВІТАМИ --- */
-.transition-screen {
-  height: 100vh;
-  background: #000;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  color: var(--accent);
-  font-family: var(--mono);
+/* Drag-and-drop блоки */
+.dnd-block {
+  background: #333;
+  border: 1px solid #555;
+  padding: 10px;
+  margin: 5px 0;
+  cursor: grab;
+  color: #fff;
+  border-radius: 4px;
+  transition: all 0.2s;
 }
 
-.loading-bar-container {
-  width: 300px;
-  height: 4px;
-  background: #002200;
-  margin-top: 20px;
-}
-
-.loading-bar-fill {
-  width: 100%; height: 100%;
-  background: var(--accent);
-  animation: loadProgress 3s linear forwards;
-}
-
-@keyframes loadProgress {
-  0% { transform: translateX(-100%); }
-  100% { transform: translateX(0); }
-}
-
-.death-screen {
-  height: 100vh;
-  background: #200;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  color: #f00;
-  font-family: var(--mono);
+.dnd-block:active {
+  cursor: grabbing;
+  background: #444;
+  box-shadow: 0 0 10px rgba(192, 132, 252, 0.3);
 }
 
 /* ============================================================
-   ФАЙЛ: App.css (ПОВНИЙ ТА НОРМАЛЬНИЙ)
+   8️⃣ ДІАЛОГ БОСА
    ============================================================ */
 
-:root {
-  --text: #9ca3af;
-  --text-h: #f3f4f6;
-  --bg: #000; /* Глибокий чорний */
-  
-  /* Хакерський зелений */
-  --accent-green: #00ff41;
-  
-  /* Фіолетовий (як на скріншотах) */
-  --accent-purple: #c084fc; 
-  
-  --mono: 'Courier New', ui-monospace, Consolas, monospace;
+.boss-dialogue-box {
+  position: fixed;
+  top: 15%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.95);
+  border: 2px solid #ff3e3e;
+  padding: 20px;
+  color: #ff3e3e;
+  font-family: var(--mono);
+  z-index: 1000;
+  box-shadow: 0 0 30px rgba(255, 62, 62, 0.5);
+  min-width: 400px;
+  max-width: 80%;
+  animation: slideIn 0.3s ease-out;
 }
 
-body {
+.typing-text {
+  font-size: 14px;
+  line-height: 1.5;
   margin: 0;
-  background: var(--bg);
-  color: var(--text);
-  font-family: var(--mono); /* За замовчуванням усюди моноширинний */
-  overflow: hidden;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
 }
 
 /* ============================================================
-   1. СТИЛІ КІНЕМАТОГРАФІЧНОГО ІНТРО (CRT, GLITCH, ПУРПУР)
+   9️⃣ КІНЕМАТОГРАФІЧНЕ ІНТРО (CRT, GLITCH)
    ============================================================ */
 
 .intro-container {
   height: 100vh;
-  background: #000;
+  background: radial-gradient(circle, #0a0a0a 0%, #000000 100%);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -339,17 +403,17 @@ body {
   box-sizing: border-box;
   overflow: hidden;
   position: relative;
-  /* Легка віньєтка */
-  background: radial-gradient(circle, #0a0a0a 0%, #000000 100%);
 }
 
-/* CRT Оверлей */
 .crt-overlay::before {
   content: " ";
   display: block;
   position: absolute;
-  top: 0; left: 0; bottom: 0; right: 0;
-  background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), 
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%),
               linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 100, 0.06));
   z-index: 10;
   background-size: 100% 4px, 3px 100%;
@@ -368,7 +432,7 @@ body {
   z-index: 20;
 }
 
-/* Плашка заголовка (Фіолетова) */
+/* Плашка заголовка */
 .terminal-header-bar {
   background: var(--accent-purple);
   color: #000;
@@ -379,19 +443,19 @@ body {
   text-align: left;
 }
 
-/* Внутрішній контент (Зелений) */
+/* Внутрішній контент інтро */
 .intro-content {
   padding: 50px 30px;
   text-align: center;
-  color: var(--accent-green); /* Внутрішній текст зелений */
+  color: var(--accent-green);
   font-family: var(--mono);
 }
 
-/* Текст та Акценти */
 .intro-content h2 {
   font-size: 24px;
   margin-bottom: 25px;
   text-transform: uppercase;
+  margin-top: 0;
 }
 
 .intro-content p {
@@ -405,7 +469,6 @@ body {
   font-weight: bold;
 }
 
-/* Фінальний рядок (миготіння курсору) */
 .blink-text {
   margin-top: 30px;
   font-size: 20px;
@@ -413,9 +476,7 @@ body {
   animation: blink 1.2s infinite;
 }
 
-@keyframes blink { 50% { opacity: 0; } }
-
-/* Кнопка */
+/* Кнопка для старту */
 .start-btn {
   margin-top: 40px;
   background: transparent;
@@ -428,6 +489,7 @@ body {
   transition: all 0.3s ease;
   z-index: 30;
   position: relative;
+  border-radius: 4px;
 }
 
 .start-btn:hover {
@@ -436,138 +498,130 @@ body {
   box-shadow: 0 0 20px var(--accent-purple);
 }
 
-/* Плавна поява кнопки гри */
+/* ============================================================
+   🔟 ПЕРЕХОДИ МІЖ СВІТАМИ
+   ============================================================ */
+
+.transition-screen {
+  height: 100vh;
+  background: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  color: var(--accent-green);
+  font-family: var(--mono);
+  gap: 20px;
+}
+
+.glitch-wrapper {
+  text-align: center;
+}
+
+.log-line {
+  font-size: 14px;
+  margin: 8px 0;
+  opacity: 0.8;
+  animation: fadeIn 0.5s ease-in forwards;
+}
+
+.next-world-title {
+  font-size: 48px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  text-shadow: 0 0 20px rgba(0, 255, 65, 0.6);
+  margin: 20px 0;
+  animation: glitch 1s linear infinite;
+}
+
+.loading-bar-container {
+  width: 300px;
+  height: 4px;
+  background: #002200;
+  margin-top: 20px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.loading-bar-fill {
+  width: 100%;
+  height: 100%;
+  background: var(--accent-green);
+  animation: loadProgress 3s linear forwards;
+}
+
+/* ============================================================
+   1️⃣1️⃣ ЕКРАН СМЕРТІ
+   ============================================================ */
+
+.death-screen {
+  height: 100vh;
+  background: #200;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #f00;
+  font-family: var(--mono);
+  gap: 20px;
+}
+
+.death-screen h1 {
+  font-size: 60px;
+  margin: 0;
+  text-shadow: 0 0 20px #ff0000;
+}
+
+/* ============================================================
+   🎬 ФІНАЛЬНА СЦЕНА
+   ============================================================ */
+
+.final-logs {
+  text-align: left;
+  margin-top: 20px;
+  font-size: 14px;
+  line-height: 1.8;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.final-logs p {
+  margin: 5px 0;
+  color: var(--accent-green);
+}
+
+/* ============================================================
+   ✨ АНІМАЦІЇ ТА ЕФЕКТИ
+   ============================================================ */
+
+@keyframes blink {
+  50% { opacity: 0.3; }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 .animate-fadeIn {
   animation: fadeIn 1s ease-out;
 }
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(15px); }
-  to { opacity: 1; transform: translateY(0); }
+
+@keyframes loadProgress {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(0); }
 }
 
-/* Мобільна адаптація */
-@media (max-width: 600px) {
-  .intro-content { padding: 30px 15px; }
-  .intro-content p { font-size: 14px; }
-}
-
-/* Додай це до свого App.css */
-
-.editor-container {
-  background: #1e1e1e;
-  border-radius: 8px;
-  border: 1px solid #333;
-  display: flex;
-  flex-direction: column;
-  height: 250px;
-}
-
-.editor-toolbar {
-  background: #333;
-  padding: 8px;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  border-radius: 8px 8px 0 0;
-}
-
-.dot { width: 10px; height: 10px; border-radius: 50%; }
-.red { background: #ff5f56; }
-.yellow { background: #ffbd2e; }
-.green { background: #27c93f; }
-
-.file-name { color: #888; font-size: 12px; margin-left: 10px; }
-
-.code-input {
-  flex: 1;
-  background: #1e1e1e;
-  color: #d4d4d4;
-  padding: 15px;
-  font-family: 'Courier New', monospace;
-  font-size: 16px;
-  border: none;
-  resize: none;
-  outline: none;
-}
-
-.editor-footer {
-  padding: 10px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background: #181818;
-}
-
-.error-msg { color: #ff3e3e; font-size: 12px; animation: blink 0.3s infinite; }
-
-.debug-btn {
-  background: var(--accent-purple);
-  color: #000;
-  border: none;
-  padding: 8px 20px;
-  font-weight: bold;
-  cursor: pointer;
-  border-radius: 4px;
-}
-
-.debug-btn:hover { filter: brightness(1.2); box-shadow: 0 0 15px var(--accent-purple); }
-
-/* HP Bar */
-.hp-container {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-.hp-bar {
-  width: 150px;
-  height: 10px;
-  background: #333;
-  border: 1px solid var(--accent);
-}
-.hp-fill {
-  height: 100%;
-  background: #ff3e3e;
-  transition: width 0.3s ease;
-}
-
-.boss-dialogue {
-  position: fixed;
-  top: 20%;
-  left: 50%;
-  transform: translateX(-50%);
-  background: rgba(0, 0, 0, 0.9);
-  border: 1px solid #00ff41;
-  padding: 20px;
-  color: #00ff41;
-  font-family: 'Courier New', monospace;
-  z-index: 1000;
-  box-shadow: 0 0 20px rgba(0, 255, 65, 0.4);
-  max-width: 80%;
-}
-
-.dnd-block {
-  background: #333;
-  border: 1px solid #555;
-  padding: 10px;
-  margin: 5px 0;
-  cursor: grab;
-  color: #fff;
-  border-radius: 4px;
-}
-
-.dnd-block:active { cursor: grabbing; background: #444; }
-
-.binary-particle {
-  animation: fadeOut 1s forwards;
-}
-
-@keyframes fadeOut {
-  from { opacity: 1; transform: scale(1); }
-  to { opacity: 0; transform: scale(0.5) translateY(-50px); }
-}
-
-.animate-shake {
-  animation: shake 0.2s infinite;
+@keyframes glitch {
+  2%, 64% { transform: translate(2px, 0) skew(0deg); }
+  4%, 60% { transform: translate(-2px, 0) skew(0deg); }
+  62% { transform: translate(0, 0) skew(5deg); }
 }
 
 @keyframes shake {
@@ -577,50 +631,73 @@ body {
 }
 
 @keyframes particle-fade {
-  0% { opacity: 1; transform: translate(0, 0); }
-  100% { opacity: 0; transform: translate(var(--vx), var(--vy)); }
-}
-.boss-dialogue-box {
-  position: absolute; top: 20%; left: 50%; transform: translateX(-50%);
-  background: rgba(0,0,0,0.8); border: 1px solid #00ff41; padding: 15px;
-  color: #00ff41; font-family: monospace; z-index: 100;
-}
-
-/* Анімація появи діалогу боса */
-.boss-dialogue-box {
-  position: fixed;
-  top: 15%;
-  left: 50%;
-  transform: translateX(-50%);
-  background: rgba(0, 0, 0, 0.95);
-  border: 2px solid #ff3e3e; /* Червоний для небезпеки */
-  padding: 20px;
-  color: #ff3e3e;
-  font-family: 'Courier New', monospace;
-  z-index: 1000;
-  box-shadow: 0 0 30px rgba(255, 62, 62, 0.5);
-  min-width: 400px;
+  0% {
+    opacity: 1;
+    transform: translate(0, 0) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(var(--vx), var(--vy)) scale(0.5) translateY(-50px);
+  }
 }
 
-.final-logs p {
-  font-size: 18px;
-  letter-spacing: 1px;
+.animate-shake {
+  animation: shake 0.2s infinite;
 }
 
-.hp-bar {
-  height: 12px;
-  border: 1px solid #555;
-  overflow: hidden;
-  margin-left: 10px;
+.binary-particle {
+  animation: particle-fade 1s forwards;
 }
 
-/* Ефект для фінального тексту */
-.glitch-text {
-  animation: glitch 1s linear infinite;
+/* ============================================================
+   📱 МОБІЛЬНА АДАПТАЦІЯ
+   ============================================================ */
+
+@media (max-width: 768px) {
+  .world-title-overlay h1 {
+    font-size: 48px;
+    letter-spacing: 5px;
+  }
+
+  .intro-content {
+    padding: 30px 15px;
+  }
+
+  .intro-content p {
+    font-size: 14px;
+  }
+
+  .game-hud {
+    flex-direction: column;
+    gap: 10px;
+    padding: 10px;
+  }
+
+  .hp-bar-bg {
+    width: 100px;
+  }
+
+  .boss-dialogue-box {
+    min-width: 90%;
+    top: 25%;
+    padding: 15px;
+  }
+
+  .terminal-border {
+    max-width: 95%;
+  }
 }
 
-@keyframes glitch {
-  2%, 64% { transform: translate(2px, 0) skew(0deg); }
-  4%, 60% { transform: translate(-2px, 0) skew(0deg); }
-  62% { transform: translate(0, 0) skew(5deg); }
+@media (max-width: 480px) {
+  .world-title-overlay h1 {
+    font-size: 32px;
+  }
+
+  .next-world-title {
+    font-size: 28px;
+  }
+
+  .death-screen h1 {
+    font-size: 40px;
+  }
 }
